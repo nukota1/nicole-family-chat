@@ -66,7 +66,7 @@ inputForm.addEventListener('submit', async (e) => {
       renderMessages();
     }
   } catch (err) {
-    messages.push({ user: 'AI', text: '（エラー: サーバーに接続できませんでした）' });
+    messages.push({ user: 'AI', text: '（エラー: サーバーに接続できませんでした）' + err.message });
     renderMessages();
   } finally {
     input.disabled = false;
