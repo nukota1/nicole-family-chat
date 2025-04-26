@@ -53,7 +53,7 @@ inputForm.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text })
     });
-    const data = await r
+const data = await res.json();
   // Durable Objectにも履歴を保存
   try {
     await fetch('https://ai-chat-backend.nukota19880615.workers.dev/api/room/history', {
