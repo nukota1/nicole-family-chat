@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AIチャット</title>
+  <style>
+    body { font-family: sans-serif; background: #f7f7f7; }
+    #chat-container { max-width: 500px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 24px; }
+    #messages { min-height: 200px; margin-bottom: 16px; }
+    .message { margin-bottom: 8px; }
+    .user { color: #1976d2; }
+    .ai { color: #43a047; }
+    #input-area { display: flex; gap: 8px; }
+    #input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    #send { padding: 8px 16px; border: none; background: #1976d2; color: #fff; border-radius: 4px; cursor: pointer; }
+    #send:disabled { background: #aaa; }
+  </style>
+</head>
+<body>
+  <div id="chat-container">
+    <div id="messages"></div>
+    <form id="input-area">
+      <input id="input" autocomplete="off" placeholder="メッセージを入力..." />
+      <button id="send" type="submit">送信</button>
+    </form>
+  </div>
+  <script src="./main.js"></script>
+</body>
+</html>
