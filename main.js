@@ -1,3 +1,25 @@
+let roomId = "default";
+const roomInput = document.getElementById('room-id-input');
+const changeRoomBtn = document.getElementById('change-room');
+const currentRoomLabel = document.getElementById('current-room-label');
+
+function updateRoomLabel() {
+  currentRoomLabel.textContent = `現在の部屋: ${roomId}`;
+}
+
+changeRoomBtn.addEventListener('click', () => {
+  const newId = roomInput.value.trim();
+  if (newId && newId !== roomId) {
+    roomId = newId;
+    messages = [];
+    renderMessages();
+    fetchHistory();
+    updateRoomLabel();
+  }
+});
+
+updateRoomLabel();
+
 // Durable Objectの履歴取得
 async function fetchHistory() {
   try {
@@ -56,7 +78,7 @@ inputForm.addEventListener('submit', async (e) => {
     const data = await res.json();
     // Durable Objectにも履歴を保存
     try {
-      await fetch('https://ai-chat-backend.nukota19880615.workers.dev/api/room/history', {
+      await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/room/history?roomId=${encodeURIComponent(roomId)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user: 'You', text, timestamp: Date.now() })
