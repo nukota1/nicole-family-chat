@@ -53,25 +53,30 @@ inputForm.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text })
     });
-const data = await res.json();
-  // Durable Objectにも履歴を保存
-  try {
-    await fetch('https://ai-chat-backend.nukota19880615.workers.dev/api/room/history', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user: 'You', text, timestamp: Date.now() })
-    });
-  } catch (e) {/* 無視 */}    if (data && data.reply) {
-      messages.push({ user: 'AI', text: data.reply });
+    const data = await res.json();
+    // Durable Objectにも履歴を保存
+    try {
+      await fetch('https://ai-chat-backend.nukota19880615.workers.dev/api/room/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user: 'You', text, timestamp: Date.now() })
+      });
+    } catch (e) {
+      // 履歴保存失敗時は無視
+      console.log('履歴保存失敗:', e);
+
+    }    
+      if (data && data.reply) {
+        messages.push({ user: 'AI', text: data.reply });
+        renderMessages();
+      }
+    } catch (err) {
+      messages.push({ user: 'AI', text: '（エラー: サーバーに接続できませんでした）' + err });
       renderMessages();
+    } finally {
+      input.disabled = false;
+      input.focus();
     }
-  } catch (err) {
-    messages.push({ user: 'AI', text: '（エラー: サーバーに接続できませんでした）' + err });
-    renderMessages();
-  } finally {
-    input.disabled = false;
-    input.focus();
-  }
 });
 
 renderMessages();
