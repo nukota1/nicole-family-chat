@@ -19,6 +19,11 @@
 </head>
 <body>
   <div id="chat-container">
+    <div style="margin-bottom: 16px;">
+      <input id="room-id-input" placeholder="部屋IDを入力" style="padding:4px; width: 180px;" />
+      <button id="change-room" type="button">部屋を切り替え</button>
+      <span id="current-room-label" style="margin-left:8px; color:#888; font-size:0.95em;"></span>
+    </div>
     <div id="messages"></div>
     <form id="input-area">
       <input id="input" autocomplete="off" placeholder="メッセージを入力..." />
