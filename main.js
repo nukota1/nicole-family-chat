@@ -23,7 +23,7 @@ updateRoomLabel();
 // Durable Objectの履歴取得
 async function fetchHistory() {
   try {
-    const res = await fetch('https://ai-chat-backend.nukota19880615.workers.dev/api/room/history');
+    const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/room/history?roomId=${encodeURIComponent(roomId)}`);
     if (res.ok) {
       const history = await res.json();
       // 取得した履歴をmessagesに反映
