@@ -81,7 +81,7 @@ inputForm.addEventListener('submit', async (e) => {
       await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/room/history?roomId=${encodeURIComponent(roomId)}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user: 'You', text, timestamp: Date.now() })
+        body: JSON.stringify({ user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000 })
       });
     } catch (e) {
       // 履歴保存失敗時は無視
