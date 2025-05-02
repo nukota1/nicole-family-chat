@@ -52,7 +52,7 @@ function renderMessages() {
   messagesDiv.innerHTML = '';
   messages.forEach(msg => {
     const div = document.createElement('div');
-    div.className = 'message ' + (msg.user === 'AI' ? 'ai' : 'user');
+    div.className = 'message ' + (msg.user === 'ニコル' ? 'ニコル' : 'user');
     div.textContent = `${msg.user}: ${msg.text}`;
     messagesDiv.appendChild(div);
   });
@@ -70,16 +70,13 @@ inputForm.addEventListener('submit', async (e) => {
 
   // バックエンドに送信
   try {
-    console.log("１");
     const res = await fetch('https://ai-chat-backend.nukota19880615.workers.dev/api/message', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text })
     });
-    console.log("２");
 
     const data = await res.json();
-    console.log("３");
 
     // Durable Objectにも履歴を保存
     try {
@@ -88,7 +85,6 @@ inputForm.addEventListener('submit', async (e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000 })
       });
-      console.log("４");
 
     } catch (e) {
       // 履歴保存失敗時は無視
