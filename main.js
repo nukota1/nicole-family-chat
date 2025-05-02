@@ -70,12 +70,17 @@ inputForm.addEventListener('submit', async (e) => {
 
   // バックエンドに送信
   try {
+    console.log("１");
     const res = await fetch('https://ai-chat-backend.nukota19880615.workers.dev/api/message', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text })
     });
+    console.log("２");
+
     const data = await res.json();
+    console.log("３");
+
     // Durable Objectにも履歴を保存
     try {
       await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/room/history?roomId=${encodeURIComponent(roomId)}`, {
@@ -83,17 +88,19 @@ inputForm.addEventListener('submit', async (e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000 })
       });
+      console.log("４");
+
     } catch (e) {
       // 履歴保存失敗時は無視
       console.log('履歴保存失敗:', e);
 
     }    
       if (data && data.reply) {
-        messages.push({ user: 'AI', text: data.reply });
+        messages.push({ user: 'ニコル', text: data.reply });
         renderMessages();
       }
     } catch (err) {
-      messages.push({ user: 'AI', text: '（エラー: サーバーに接続できませんでした）' + err });
+      messages.push({ user: 'ニコル', text: '（エラー: サーバーに接続できませんでした）' + err });
       renderMessages();
     } finally {
       input.disabled = false;
