@@ -70,6 +70,7 @@ inputForm.addEventListener('submit', async (e) => {
 
   // バックエンドに送信
   // Durable Objectにも履歴を保存
+  /*
   try {
     await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/room/history?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
@@ -81,7 +82,7 @@ inputForm.addEventListener('submit', async (e) => {
     // 履歴保存失敗時は無視
     console.log('履歴保存失敗:', e);
   }
-
+*/
   try {
     const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/message?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
