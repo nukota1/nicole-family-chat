@@ -27,8 +27,15 @@ async function fetchHistory() {
     if (res.ok) {
       const history = await res.json();
       // 取得した履歴をmessagesに反映
+      /*
       messages = history.map(msg => ({
         user: msg.user || 'User',
+        text: msg.text,
+        timestamp: msg.timestamp
+      }));
+      */
+      messages = history.map(msg => ({
+        user: msg.user,
         text: msg.text,
         timestamp: msg.timestamp
       }));
