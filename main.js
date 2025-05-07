@@ -86,7 +86,7 @@ inputForm.addEventListener('submit', async (e) => {
     const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/message?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text })
+      body: JSON.stringify({ user: 'ニコル', text, timestamp: Date.now() + 9 * 60 * 60 * 1000 })
     });
 
     const data = await res.json();
