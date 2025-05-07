@@ -84,15 +84,16 @@ inputForm.addEventListener('submit', async (e) => {
   }
 */
   try {
+    //入力メッセージの保存 & AI問い合わせ
     const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/message?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user: 'ニコル', text, timestamp: Date.now() + 9 * 60 * 60 * 1000 })
+      body: JSON.stringify({roomid: roomId, user: 'You', text: text })
     });
-
+    //問い合わせ実行
     const data = await res.json();
 
-
+    //サーバーからの応答を処理
     if (data && data.reply) {
       messages.push({ user: 'ニコル', text: data.reply });
       renderMessages();
