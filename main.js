@@ -95,7 +95,9 @@ inputForm.addEventListener('submit', async (e) => {
     const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/message?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({roomid: roomId, user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
+      //body: JSON.stringify({roomid: roomId, user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
+      body: JSON.stringify({user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
+
     });
     //問い合わせ実行
     const data = await res.json();
