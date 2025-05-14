@@ -104,7 +104,7 @@ inputForm.addEventListener('submit', async (e) => {
 
     //サーバーからの応答を処理
     if (data && data.reply) {
-      messages.push({ user: data.reply.name, text: data.reply.message });
+      messages.push({ user: data.reply.name, text: data.reply.message + '（' + data.reply.countenance + '）' });
       renderMessages();
     }
   } catch (err) {
