@@ -70,7 +70,7 @@ inputForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const text = input.value.trim();
   if (!text) return;
-  messages.push({ user: 'ユキ', text });
+  messages.push({ user: 'アリス', text });
   renderMessages();
   input.value = '';
   input.disabled = true;
@@ -83,7 +83,7 @@ inputForm.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       //body: JSON.stringify({roomid: roomId, user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
-      body: JSON.stringify({roomid: roomId, user: 'ユキ', text: text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
+      body: JSON.stringify({roomid: roomId, user: 'アリス', text: text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
 
     });
     //問い合わせ実行
