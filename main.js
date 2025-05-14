@@ -104,11 +104,11 @@ inputForm.addEventListener('submit', async (e) => {
 
     //サーバーからの応答を処理
     if (data && data.reply) {
-      messages.push({ user: 'ニコル', text: data.reply });
+      messages.push({ user: data.reply.name, text: data.reply.message });
       renderMessages();
     }
   } catch (err) {
-    messages.push({ user: 'ニコル', text: '（エラー: サーバーに接続できませんでした）' + err });
+    messages.push({ user: 'System', text: '（エラー: サーバーに接続できませんでした）' + err });
     renderMessages();
   } finally {
     input.disabled = false;
