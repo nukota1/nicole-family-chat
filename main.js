@@ -97,12 +97,21 @@ let initialInnerHeight = window.innerHeight;
 window.addEventListener('load', () => {
   initialInnerHeight = window.innerHeight;
 });
+//画面リサイズ時にも高さを調整
+window.addEventListener('resize', () => {
+  if (document.activeElement !== input) {
+    initialInnerHeight = window.innerHeight;
+  }
+});
 
+// スクロール位置の調整
 function scrollInputIntoView() {
   setTimeout(() => {
     const currentHeight = window.innerHeight;
-    const keyboardHeight = initialInnerHeight - currentHeight;
-
+    const keyboardHeight = window.visualViewport
+    ? initialInnerHeight - window.visualViewport.height
+    : initialInnerHeight - window.innerHeight;
+  
     // スクロール位置を調整（messagesの最下部へ）
     if (keyboardHeight > 0) {
       window.scrollTo({
