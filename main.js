@@ -68,7 +68,7 @@ function renderMessages() {
 
     // 仮アイコン画像
     const iconUrl = isAI
-      ? 'https://via.placeholder.com/40/43a047/ffffff?text=AI'
+      ? './icon/nicole.jpg'
       : 'https://via.placeholder.com/40/9eea6a/222222?text=U';
     const icon = document.createElement('img');
     icon.className = 'icon';
