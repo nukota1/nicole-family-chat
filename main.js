@@ -91,11 +91,26 @@ function renderMessages() {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-// 入力欄が隠れないように、フォーカス時と入力時にスクロール調整
+let initialInnerHeight = window.innerHeight;
+
+// 初回ロード時の高さを記録
+window.addEventListener('load', () => {
+  initialInnerHeight = window.innerHeight;
+});
+
 function scrollInputIntoView() {
   setTimeout(() => {
-    window.scrollTo(0, document.body.scrollHeight);
-  }, 300);
+    const currentHeight = window.innerHeight;
+    const keyboardHeight = initialInnerHeight - currentHeight;
+
+    // スクロール位置を調整（messagesの最下部へ）
+    if (keyboardHeight > 0) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, 100); // 遅延を入れてkeyboard表示が完了するのを待つ
 }
 
 // メッセージ送信処理
@@ -130,8 +145,8 @@ inputForm.addEventListener('submit', async (e) => {
   }
 });
 
+// イベント登録
 input.addEventListener('focus', scrollInputIntoView);
-input.addEventListener('input', scrollInputIntoView);
 
 //部屋名更新
 updateRoomLabel();
