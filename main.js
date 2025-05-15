@@ -2,6 +2,11 @@ let roomId = "default";
 const roomInput = document.getElementById('room-id-input');
 const changeRoomBtn = document.getElementById('change-room');
 const currentRoomLabel = document.getElementById('current-room-label');
+const messagesDiv = document.getElementById('messages');
+const inputForm = document.getElementById('chat-form');
+const input = document.getElementById('user-input');
+
+let messages = [];
 
 function getJSTDate(dateInput = Date.now()) {
   try {
@@ -20,7 +25,6 @@ function getJSTDate(dateInput = Date.now()) {
   }
 }
 
-
 function updateRoomLabel() {
   currentRoomLabel.textContent = `現在の部屋: ${roomId}`;
 }
@@ -36,8 +40,6 @@ changeRoomBtn.addEventListener('click', () => {
   }
 });
 
-updateRoomLabel();
-
 // Durable Objectの履歴取得
 async function fetchHistory() {
   try {
@@ -45,13 +47,6 @@ async function fetchHistory() {
     if (res.ok) {
       const history = await res.json();
       // 取得した履歴をmessagesに反映
-      /*
-      messages = history.map(msg => ({
-        user: msg.user || 'User',
-        text: msg.text,
-        timestamp: msg.timestamp
-      }));
-      */
       messages = history.map(msg => ({
         user: msg.user,
         text: msg.text,
@@ -63,23 +58,6 @@ async function fetchHistory() {
     // 履歴取得失敗時は何もしない
   }
 }
-
-// ページロード時に履歴取得
-fetchHistory();
-
-const messagesDiv = document.getElementById('messages');
-const inputForm = document.getElementById('chat-form');
-const input = document.getElementById('user-input');
-
-
-// 入力欄が隠れないように、フォーカス時にスクロール調整
-input.addEventListener('focus', () => {
-  setTimeout(() => {
-    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 200);
-});
-
-let messages = [];
 
 function renderMessages() {
   messagesDiv.innerHTML = '';
@@ -113,6 +91,14 @@ function renderMessages() {
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
+// 入力欄が隠れないように、フォーカス時と入力時にスクロール調整
+function scrollInputIntoView() {
+  setTimeout(() => {
+    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 400);
+}
+
+// メッセージ送信処理
 inputForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const text = input.value.trim();
@@ -123,7 +109,6 @@ inputForm.addEventListener('submit', async (e) => {
   input.disabled = true;
 
   try {
-
     const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/message?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -145,4 +130,13 @@ inputForm.addEventListener('submit', async (e) => {
   }
 });
 
+input.addEventListener('focus', scrollInputIntoView);
+input.addEventListener('input', scrollInputIntoView);
+
+//部屋名更新
+updateRoomLabel();
+// ページロード時に履歴取得
+fetchHistory();
+// メッセージをレンダリング
 renderMessages();
+
