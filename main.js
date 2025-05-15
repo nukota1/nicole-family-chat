@@ -3,6 +3,24 @@ const roomInput = document.getElementById('room-id-input');
 const changeRoomBtn = document.getElementById('change-room');
 const currentRoomLabel = document.getElementById('current-room-label');
 
+function getJSTDate(dateInput = Date.now()) {
+  try {
+    const date = new Date(dateInput);
+
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid date input");
+    }
+
+    // UTC -> JST (+9時間)
+    const jstTime = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+    return jstTime;
+  } catch (error) {
+    console.warn('日付変換に失敗しました。現在日時を使用します:', error.message);
+    return new Date(Date.now() + 9 * 60 * 60 * 1000);
+  }
+}
+
+
 function updateRoomLabel() {
   currentRoomLabel.textContent = `現在の部屋: ${roomId}`;
 }
@@ -37,7 +55,7 @@ async function fetchHistory() {
       messages = history.map(msg => ({
         user: msg.user,
         text: msg.text,
-        timestamp: msg.timestamp
+        timestamp: getJSTDate(msg.timestamp)
       }));
       renderMessages();
     }
