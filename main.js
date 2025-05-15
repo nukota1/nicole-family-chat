@@ -68,18 +68,39 @@ async function fetchHistory() {
 fetchHistory();
 
 const messagesDiv = document.getElementById('messages');
-const inputForm = document.getElementById('input-area');
-const input = document.getElementById('input');
+const inputForm = document.getElementById('chat-form');
+const input = document.getElementById('user-input');
 
 let messages = [];
 
 function renderMessages() {
   messagesDiv.innerHTML = '';
   messages.forEach(msg => {
-    const div = document.createElement('div');
-    div.className = 'message ' + (msg.user === 'ニコル' ? 'ai' : 'user');
-    div.textContent = `${msg.user}: ${msg.text}`;
-    messagesDiv.appendChild(div);
+    const isAI = msg.user === 'ニコル';
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message ' + (isAI ? 'ai' : 'user');
+
+    // 仮アイコン画像
+    const iconUrl = isAI
+      ? 'https://via.placeholder.com/40/43a047/ffffff?text=AI'
+      : 'https://via.placeholder.com/40/9eea6a/222222?text=U';
+    const icon = document.createElement('img');
+    icon.className = 'icon';
+    icon.src = iconUrl;
+    icon.alt = isAI ? 'AI' : 'User';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = msg.text;
+
+    if (isAI) {
+      messageDiv.appendChild(icon);
+      messageDiv.appendChild(bubble);
+    } else {
+      messageDiv.appendChild(bubble);
+      messageDiv.appendChild(icon);
+    }
+    messagesDiv.appendChild(messageDiv);
   });
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
@@ -93,21 +114,21 @@ inputForm.addEventListener('submit', async (e) => {
   input.value = '';
   input.disabled = true;
 
-  // バックエンドに送信
-  // Durable Objectにも履歴を保存
+
+
   try {
-    //入力メッセージの保存 & AI問い合わせ
+
+
     const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/message?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      //body: JSON.stringify({roomid: roomId, user: 'You', text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
-      body: JSON.stringify({roomid: roomId, user: 'アリス', text: text, timestamp: Date.now() + 9 * 60 * 60 * 1000})
-
+      body: JSON.stringify({ roomid: roomId, user: 'アリス', text: text, timestamp: Date.now() + 9 * 60 * 60 * 1000 })
     });
-    //問い合わせ実行
+
+
     const data = await res.json();
 
-    //サーバーからの応答を処理
+
     if (data && data.reply) {
       messages.push({ user: data.reply.name, text: data.reply.message + '（' + data.reply.countenance + '）' });
       renderMessages();
