@@ -94,8 +94,8 @@ function renderMessages() {
 // 入力欄が隠れないように、フォーカス時と入力時にスクロール調整
 function scrollInputIntoView() {
   setTimeout(() => {
-    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 400);
+    window.scrollTo(0, document.body.scrollHeight);
+  }, 300);
 }
 
 // メッセージ送信処理
