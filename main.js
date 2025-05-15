@@ -122,6 +122,13 @@ inputForm.addEventListener('submit', async (e) => {
     const res = await fetch(`https://ai-chat-backend.nukota19880615.workers.dev/api/message?roomId=${encodeURIComponent(roomId)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+// 入力欄が隠れないように、フォーカス時にスクロール調整
+input.addEventListener('focus', () => {
+  setTimeout(() => {
+    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 200);
+});
+
       body: JSON.stringify({ roomid: roomId, user: 'アリス', text: text, timestamp: Date.now() + 9 * 60 * 60 * 1000 })
     });
 
